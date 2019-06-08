@@ -41,7 +41,7 @@ Prints the usage guide
 $ npm start --email "notch@minecraft.net" --password "M!n3cr4f1" --world "My World" --directory "./downloads"
 ```
 
-#### Simple download, must have already run Realms World Downloader and logged in atleast once already
+#### Simple download, must have already run Realms World Downloader and logged in at least once already
 ```
 $ npm start --world "My World"
 ```
