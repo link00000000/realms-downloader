@@ -2,10 +2,18 @@ const { Authentication, Client, Realms } = require("node-mojang-api");
 const figlet = require("figlet");
 const prompts = require("prompts");
 const download = require("progress-download");
+const commandLineArgs = require("command-line-args");
 const path = require("path");
 const fs = require("fs");
 
 const clientFile = path.join(__dirname, "client.json");
+const options = commandLineArgs([
+    { name: "email", type: String },
+    { name: "password", type: String },
+    { name: "world", type: String, default: true },
+    { name: "directory", type: String }
+]);
+const interactiveMode = Object.keys(options).length == 0;
 
 let login = async () => {
     return new Promise(async (resolve, reject) => {
@@ -27,20 +35,28 @@ let login = async () => {
         // If no valid access token, prompt login
         catch(e)
         {
-            let email = await prompts({
-                type: "text",
-                name: "email",
-                message: "Email:",
-                validate: value => value.match(/.*\@.*\..*/) ? true : "Not a valid email"
-            });
+            let email, password;
+            if(interactiveMode)
+            {
+                email = await prompts({
+                    type: "text",
+                    name: "email",
+                    message: "Email:",
+                    validate: value => value.match(/.*\@.*\..*/) ? true : "Not a valid email"
+                }).email;
 
-            let password = await prompts({
-                type: "password",
-                name: "password",
-                message: "Password:"
-            });
-
-            let auth = new Authentication(email.email, password.password, clientFile);
+                password = await prompts({
+                    type: "password",
+                    name: "password",
+                    message: "Password:"
+                }).password;
+            }
+            else
+            {
+                email = options.email;
+                password = options.password;
+            }
+            let auth = new Authentication(email, password, clientFile);
             try {
                 await auth.authenticate();
             }
@@ -49,6 +65,7 @@ let login = async () => {
                 reject(e);
             }
             resolve(auth);
+
         }
     });
 }
@@ -59,18 +76,32 @@ let getWorld = async (realm) => {
             // Gets a filtered list of realms that are owned by the authenticated user
             let ownedWorlds = await realm.getWorlds();
             ownedWorlds = ownedWorlds.filter(item => item.owner == realm.auth.name);
-            let selectedWorld = await prompts({
-                type: "select",
-                name: "selectedWorld",
-                message: "Select a world",
-                choices: ownedWorlds.map(item => {
-                    return {
-                        title: item.name,
-                        value: item
+            if(interactiveMode)
+            {
+                let selectedWorld = await prompts({
+                    type: "select",
+                    name: "selectedWorld",
+                    message: "Select a world",
+                    choices: ownedWorlds.map(item => {
+                        return {
+                            title: item.name,
+                            value: item
+                        }
+                    })
+                });
+                resolve(selectedWorld.selectedWorld);
+            }
+            else
+            {
+                for(var i = 0; i < ownedWorlds.length; ++i)
+                {
+                    if(ownedWorlds[i].name == options.world)
+                    {
+                        resolve(ownedWorlds[i]);
                     }
-                })
-            });
-            resolve(selectedWorld.selectedWorld);
+                }
+                reject("No owned realms world found with the name: " + options.world);
+            }
         }
         catch(e)
         {
@@ -81,13 +112,21 @@ let getWorld = async (realm) => {
 
 let downloadWorld = async (url) => {
     return new Promise(async (resolve, reject) => {
-        let downloadLocation = await prompts({
-            type: "text",
-            name: "downloadLocation",
-            message: "Download directory:",
-            validate: input => fs.existsSync(path.resolve(input)) ? true : `Directory does not exist (${path.resolve(input)})`,
-        });
-        let extractionPath = path.join(downloadLocation.downloadLocation, (new Date()).toLocaleString().replace(/\//g, '-'));
+        let downloadLocation;
+        if(interactiveMode)
+        {
+            downloadLocation = await prompts({
+                type: "text",
+                name: "downloadLocation",
+                message: "Download directory:",
+                validate: input => fs.existsSync(path.resolve(input)) ? true : `Directory does not exist (${path.resolve(input)})`,
+            }).downloadLocation;
+        }
+        else
+        {
+            downloadLocation = options.directory || process.cwd();
+        }
+        let extractionPath = path.join(downloadLocation, (new Date()).toLocaleString().replace(/\//g, "-"));
         download(url, extractionPath, { extract: true, strip: 1 })
             .then(() => {
                 console.log("Extracted to " + path.resolve(extractionPath));

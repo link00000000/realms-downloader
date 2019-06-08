@@ -7,6 +7,7 @@
   "author": "link00000000 <crandall.logan@gmail.com>",
   "license": "GPL-v3.0",
   "dependencies": {
+    "command-line-args": "^5.1.1",
     "dotenv": "^8.0.0",
     "figlet": "^1.2.3",
     "node-mojang-api": "^1.0.3",
