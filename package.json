@@ -8,6 +8,7 @@
   "license": "GPL-v3.0",
   "dependencies": {
     "command-line-args": "^5.1.1",
+    "command-line-usage": "^5.0.5",
     "dotenv": "^8.0.0",
     "figlet": "^1.2.3",
     "node-mojang-api": "^1.0.3",

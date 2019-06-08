@@ -3,17 +3,60 @@ const figlet = require("figlet");
 const prompts = require("prompts");
 const download = require("progress-download");
 const commandLineArgs = require("command-line-args");
+const commandLineUsage = require("command-line-usage");
 const path = require("path");
 const fs = require("fs");
 
 const clientFile = path.join(__dirname, "client.json");
+const usage = commandLineUsage([
+    {
+        header: "Realms World Downloader",
+        content: "Download minecraft realms world in the command line."
+    },
+    {
+        header: "Options",
+        optionList: [
+            {
+                name: "email",
+                typeLabel: "{underline email}",
+                description: "The email of the client to authenticate with. Only needs to be specified once."
+            },
+            {
+                name: "password",
+                typeLabel: "{underline password}",
+                description: "The password of the client to authenticate with. Only needs to be specified once."
+            },
+            {
+                name: "world",
+                typeLabel: "{underline worldName}",
+                description: "The name of the world to download."
+            },
+            {
+                name: "directory",
+                typeLabel: "{underline downloadDirectory}",
+                description: "The directory where the world should be downloaded. If omitted, the world will be downloaded to the current working directory."
+            },
+            {
+                name: "help",
+                description: "Print this usage guide."
+            }
+        ]
+    }
+]);
 const options = commandLineArgs([
     { name: "email", type: String },
     { name: "password", type: String },
     { name: "world", type: String, default: true },
-    { name: "directory", type: String }
+    { name: "directory", type: String },
+    { name: "help", type: Boolean }
 ]);
 const interactiveMode = Object.keys(options).length == 0;
+
+if(options.help)
+{
+    console.log(usage);
+    process.exit();
+}
 
 let login = async () => {
     return new Promise(async (resolve, reject) => {
