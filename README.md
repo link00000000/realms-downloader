@@ -46,10 +46,10 @@ $ npm start --email "notch@minecraft.net" --password "M!n3cr4f1" --world "My Wor
 $ npm start --world "My World"
 ```
 
-# Version
+## Version
 - Version 1.0.0
 
-# Contact
+## Contact
 ### Logan Crandall
 - Homepage: [accidentallycoded.com](https://accidentallycoded.com)
 - email: logan@accidentallycoded.com
