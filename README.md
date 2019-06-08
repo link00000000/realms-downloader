@@ -1,7 +1,7 @@
 # Realms World Downloader
 Download minecraft realms world in the command line.
 
-*Note: only realms world owned by the authenticated user can be downloaded.
+*Note: only realms world owned by the authenticated user can be downloaded.*
 
 ## Requirements
 - Node.JS
