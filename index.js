@@ -97,7 +97,7 @@ let login = async () => {
             else
             {
                 email = options.email;
-                password = option.password;
+                password = options.password;
             }
 
             let auth = new Authentication(email, password, clientFile);
