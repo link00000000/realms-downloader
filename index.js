@@ -1,4 +1,4 @@
-const { Authentication, Client, Realms } = require("node-mojang-api");
+const { Authentication, Realms } = require("node-mojang-api");
 const figlet = require("figlet");
 const prompts = require("prompts");
 const download = require("progress-download");
