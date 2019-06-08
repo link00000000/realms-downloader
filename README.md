@@ -3,15 +3,15 @@ Download minecraft realms world in the command line.
 
 *Note: only realms world owned by the authenticated user can be downloaded.
 
-# Requirements
+## Requirements
 - Node.JS
 
-# Installation
+## Installation
 1. Clone this repository using `git clone https://github.com/realms-world-downloader`
 2. `cd realms-world-downloader`
 3. `npm install`
 
-# Usage
+## Usage
 ## Interactive Mode
 Interactive mode can be used by simply running the command `npm start`. You will be prompted with messages to begin the download.
 
@@ -35,7 +35,7 @@ The directory where the world should be downloaded. If omitted, the world will b
 ### --help
 Prints the usage guide
 
-# Example
+## Example
 #### First time login
 ```
 $ npm start --email "notch@minecraft.net" --password "M!n3cr4f1" --world "My World" --directory "./downloads"
@@ -46,13 +46,13 @@ $ npm start --email "notch@minecraft.net" --password "M!n3cr4f1" --world "My Wor
 $ npm start --world "My World"
 ```
 
-# Version
+## Version
 - Version 1.0.0
 
-# Contact
+## Contact
 ### Logan Crandall
 - Homepage: [accidentallycoded.com](https://accidentallycoded.com)
 - email: logan@accidentallycoded.com
 
-# License
+## License
 This software is distributed under the [GNU Public License v3](https://github.com/link00000000/realms-world-downloader/blob/master/LICENSE)
