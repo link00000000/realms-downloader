@@ -81,24 +81,25 @@ let login = async () => {
             let email, password;
             if(interactiveMode)
             {
-                email = await prompts({
+                email = (await prompts({
                     type: "text",
                     name: "email",
                     message: "Email:",
                     validate: value => value.match(/.*\@.*\..*/) ? true : "Not a valid email"
-                }).email;
+                })).email;
 
-                password = await prompts({
+                password = (await prompts({
                     type: "password",
                     name: "password",
                     message: "Password:"
-                }).password;
+                })).password;
             }
             else
             {
                 email = options.email;
-                password = options.password;
+                password = option.password;
             }
+
             let auth = new Authentication(email, password, clientFile);
             try {
                 await auth.authenticate();
@@ -108,7 +109,6 @@ let login = async () => {
                 reject(e);
             }
             resolve(auth);
-
         }
     });
 }
@@ -158,12 +158,12 @@ let downloadWorld = async (url) => {
         let downloadLocation;
         if(interactiveMode)
         {
-            downloadLocation = await prompts({
+            downloadLocation = (await prompts({
                 type: "text",
                 name: "downloadLocation",
                 message: "Download directory:",
                 validate: input => fs.existsSync(path.resolve(input)) ? true : `Directory does not exist (${path.resolve(input)})`,
-            }).downloadLocation;
+            })).downloadLocation;
         }
         else
         {
