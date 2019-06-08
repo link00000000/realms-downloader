@@ -1,13 +1,16 @@
-# Realms World Downloader
+# Realms Downloader
 Download minecraft realms world in the command line.
 
 *Note: only realms world owned by the authenticated user can be downloaded.*
+
+## Screenshots
+![Realms Downloader](https://i.imgur.com/dfNnwBY.png)
 
 ## Requirements
 - Node.JS
 
 ## Installation
-1. Clone this repository using `git clone https://github.com/realms-world-downloader`
+1. Clone this repository using `git clone https://github.com/realms-downloader`
 2. `cd realms-world-downloader`
 3. `npm install`
 
